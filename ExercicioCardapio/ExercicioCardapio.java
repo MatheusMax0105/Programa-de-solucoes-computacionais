@@ -8,10 +8,12 @@ public class ExercicioCardapio {
 
     private List<ItemCardapio> itensCardapio;
     private Scanner scanner;
-
+    private List<Pedido> pedidos;
+    
     public ExercicioCardapio() {
         itensCardapio = new ArrayList<>();
         scanner = new Scanner(System.in);
+        pedidos = new ArrayList<>();
         adicionarItemCardapio("Hotdog", 7.50);
         adicionarItemCardapio("Hamburguer", 13.00);
         adicionarItemCardapio("Suco", 3.70);
@@ -39,23 +41,36 @@ public class ExercicioCardapio {
             if (escolha == 0) {
                 System.out.println("Saindo do sistema...");
                 break;
-            } else if (escolha > 0 && escolha <= itensCardapio.size()) {
+                
+            } 
+            else if (escolha > 0 && escolha <= itensCardapio.size()) {
                 int indiceItem = escolha - 1;
                 ItemCardapio itemSelecionado = itensCardapio.get(indiceItem);
                 System.out.println("Você selecionou: " + itemSelecionado.getNome());
                 System.out.println("Informe a quantidade desejada:");
                 int quantidade = scanner.nextInt();
 
-                // Calcular preço total (assumindo preço único por enquanto)
+                
                 double precoTotal = itemSelecionado.getPreco() * quantidade;
                 System.out.println("Total: " + precoTotal);
-
-                // Você pode estender esta seção para lidar com a confirmação do pedido,
-                // itens adicionais ou processamento de pagamento.
-            } else {
+                
+                pedidos.add(new Pedido(itemSelecionado, quantidade));
+                
+            } 
+            else {
                 System.out.println("Opção inválida. Tente novamente.");
             }
         }
+        
+        double totalGeral = 0;
+        for (Pedido pedido : pedidos) {
+            totalGeral += pedido.getPrecoTotal();
+      
+        }
+        
+        System.out.println("-------------------");
+        System.out.println("Total Geral dos Pedidos: " + totalGeral);
+        
     }
 
     public static void main(String[] args) {
@@ -82,3 +97,25 @@ class ItemCardapio {
         return preco;
     }
 }
+
+class Pedido{
+    private ItemCardapio item;
+    private int quantidade;
+    private double precoTotal;
+    
+public Pedido(ItemCardapio item, int quantidade){
+    this.item = item;
+    this.quantidade = quantidade;
+    this.precoTotal = item.getPreco() * quantidade;
+    }
+public ItemCardapio getItem(){
+    return item;
+}
+public int getQuantidade(){
+    return quantidade;
+}
+public double getPrecoTotal(){
+    return precoTotal;
+}
+}
+
