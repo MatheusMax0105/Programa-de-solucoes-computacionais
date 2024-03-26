@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+public class AppFigurasGeometricas {
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int opcao;
+
+        do {
+            System.out.println("**Calculadora de área de figuras geométricas**");
+            System.out.println("-----------------------------------------");
+            System.out.println("1. Círculo");
+            System.out.println("2. Retângulo");
+            System.out.println("3. Triângulo");
+            System.out.println("0. Sair");
+            System.out.println("-----------------------------------------");
+            System.out.print("Digite a opção desejada: ");
+            opcao = scanner.nextInt();
+
+            if (opcao == 1) {
+                calcularAreaCirculo();
+            } else if (opcao == 2) {
+                calcularAreaRetangulo();
+            } else if (opcao == 3) {
+                calcularAreaTriangulo();
+            } else if (opcao == 0) {
+                System.out.println("Saindo...");
+            } else {
+                System.out.println("Opção inválida!");
+            }
+        } while (opcao != 0);
+    }
+
+    private static void calcularAreaCirculo() {
+        System.out.print("Digite o raio do círculo: ");
+        double raio = scanner.nextDouble();
+        double areaCirculo = Math.PI * Math.pow(raio, 2);
+        System.out.printf("A área do círculo é: %.2f\n", areaCirculo);
+    }
+
+    private static void calcularAreaRetangulo() {
+        System.out.print("Digite a base do retângulo: ");
+        double base = scanner.nextDouble();
+        System.out.print("Digite a altura do retângulo: ");
+        double altura = scanner.nextDouble();
+        double areaRetangulo = base * altura;
+        System.out.printf("A área do retângulo é: %.2f\n", areaRetangulo);
+    }
+
+    private static void calcularAreaTriangulo() {
+        System.out.print("Digite o lado 1 do triângulo: ");
+        double lado1 = scanner.nextDouble();
+        System.out.print("Digite o lado 2 do triângulo: ");
+        double lado2 = scanner.nextDouble();
+        System.out.print("Digite o lado 3 do triângulo: ");
+        double lado3 = scanner.nextDouble();
+        double semiperimetro = (lado1 + lado2 + lado3) / 2;
+        double areaTriangulo = Math.sqrt(semiperimetro * (semiperimetro - lado1) * (semiperimetro - lado2) * (semiperimetro - lado3));
+        System.out.printf("A área do triângulo é: %.2f\n", areaTriangulo);
+    }
+}
