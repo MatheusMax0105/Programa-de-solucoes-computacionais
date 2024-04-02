@@ -1,0 +1,155 @@
+package herancajava;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Pessoa {
+    private String nome;
+    private String cpf;
+
+    public Pessoa(String nome, String cpf) {
+        this.nome = nome;
+        this.cpf = cpf.replaceAll("[^0-9]", "");
+        if (cpf.length() != 11) {
+            throw new IllegalArgumentException("CPF precisa ter 11 digitos numericos!");
+        }
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + nome + ", CPF: " + cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
+    }
+}
+
+class Aluno extends Pessoa {
+    private final String curso;
+
+    public Aluno(String nome, String cpf, String curso) {
+        super(nome, cpf);
+        this.curso = curso;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Curso: " + curso;
+    }
+}
+
+class Professor extends Pessoa {
+    private final String disciplina;
+
+    public Professor(String nome, String cpf, String disciplina) {
+        super(nome, cpf);
+        this.disciplina = disciplina;
+    }
+
+    public String getDisciplina() {
+        return disciplina;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Disciplina: " + disciplina;
+    }
+}
+
+public class HerancaJava {
+
+    private static final List<Pessoa> pessoasCadastradas = new ArrayList<>();
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            boolean continuar = true;
+
+            while (continuar) {
+                System.out.println("**Cadastro de Pessoas**");
+                System.out.println("-----------------------");
+                System.out.println("1: Cadastrar Professor(a) ");
+                System.out.println("2: Cadastrar Aluno(a) ");
+                System.out.println("3: Listar Pessoas Cadastradas ");
+                System.out.println("4: Sair ");
+                System.out.print("Digite a opcao desejada: ");
+
+                int opcao = scanner.nextInt();
+
+                switch (opcao) {
+                    case 1 -> cadastrarProfessor(scanner);
+                    case 2 -> cadastrarAluno(scanner);
+                    case 3 -> listarPessoas();
+                    case 4 -> {
+                        continuar = false;
+                        System.out.println("Saindo do sistema...");
+                    }
+                    default -> System.out.println("Opcao Invalida!");
+                }
+            }
+        }
+    }
+
+    private static void cadastrarAluno(Scanner scanner) {
+        System.out.println("\nCadastro de Aluno");
+        System.out.print("Nome: ");
+        scanner.nextLine();
+        String nome = scanner.nextLine();
+        System.out.print("CPF: ");
+        String cpf = scanner.nextLine();
+        System.out.print("Curso: ");
+        String curso = scanner.nextLine();
+
+        Aluno aluno = new Aluno(nome, cpf, curso);
+
+        pessoasCadastradas.add(aluno);
+
+        System.out.println("Aluno cadastrado com sucesso! ");
+    }
+
+    private static void cadastrarProfessor(Scanner scanner) {
+        System.out.println("\nCadastro de Professor");
+        System.out.print("Nome: ");
+        scanner.nextLine();
+        String nome = scanner.nextLine();
+        System.out.print("CPF: ");
+        String cpf = scanner.nextLine();
+        System.out.print("Disciplina: ");
+        String disciplina = scanner.nextLine();
+
+        Professor professor = new Professor(nome, cpf, disciplina);
+
+        pessoasCadastradas.add(professor);
+
+        System.out.println("Professor cadastrado com sucesso! ");
+    }
+
+    private static void listarPessoas() {
+        System.out.println("\nLista de Pessoas cadastradas");
+
+        if (pessoasCadastradas.isEmpty()) {
+            System.out.println("Ainda nao ha pessoas cadastradas.");
+        } else {
+            for (Pessoa pessoa : pessoasCadastradas) {
+                System.out.println(pessoa);
+            }
+        }
+    }
+}
