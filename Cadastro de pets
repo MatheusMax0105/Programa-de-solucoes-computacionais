@@ -1,62 +1,49 @@
+package registrodeanimaisdeestimacao;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RegistroDeAnimaisDeEstimacao {
 
-    private static ArrayList<AnimalDeEstimacao> listaDeAnimais = new ArrayList<>(); // Lista para armazenar animais de estimação cadastrados
+    private static final ArrayList<AnimalDeEstimacao> listaDeAnimais = new ArrayList<>();
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        // Loop do menu principal
-        boolean continuarMenu = true;
-        while (continuarMenu) {
-            System.out.println("\n\nSistema de Registro de Animais de Estimação");
-            System.out.println("------------------------------------------");
-            System.out.println("1. Cadastrar Cachorro");
-            System.out.println("2. Cadastrar Gato");
-            System.out.println("3. Cadastrar Peixe");
-            System.out.println("4. Cadastrar Pássaro");
-            System.out.println("5. Listar Animais Cadastrados");
-            System.out.println("6. Sair");
-            System.out.print("Digite sua opção: ");
-
-            int escolha = scanner.nextInt();
-            scanner.nextLine(); // Consumir caractere de nova linha
-
-            switch (escolha) {
-                case 1:
-                    cadastrarCachorro(scanner);
-                    break;
-                case 2:
-                    cadastrarGato(scanner);
-                    break;
-                case 3:
-                    cadastrarPeixe(scanner);
-                    break;
-                case 4:
-                    cadastrarPassaro(scanner);
-                    break;
-                case 5:
-                    listarAnimaisCadastrados();
-                    break;
-                case 6:
-                    continuarMenu = false;
-                    System.out.println("Saindo do sistema...");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+        try (Scanner scanner = new Scanner(System.in)) {
+            boolean continuarMenu = true;
+            while (continuarMenu) {
+                System.out.println("\n\nSistema de Registro de Animais de Estimacao");
+                System.out.println("------------------------------------------");
+                System.out.println("1. Cadastrar Cachorro");
+                System.out.println("2. Cadastrar Gato");
+                System.out.println("3. Cadastrar Peixe");
+                System.out.println("4. Cadastrar Passaro");
+                System.out.println("5. Listar Animais Cadastrados");
+                System.out.println("6. Sair");
+                System.out.print("Digite sua opcao: ");
+                int escolha = scanner.nextInt();
+                scanner.nextLine(); 
+                
+                switch (escolha) {
+                    case 1 -> cadastrarCachorro(scanner);
+                    case 2 -> cadastrarGato(scanner);
+                    case 3 -> cadastrarPeixe(scanner);
+                    case 4 -> cadastrarPassaro(scanner);
+                    case 5 -> listarAnimaisCadastrados();
+                    case 6 -> {
+                        continuarMenu = false;
+                        System.out.println("Saindo do sistema...");
+                    }
+                    default -> System.out.println("Opcao invalida. Tente novamente.");
+                }
             }
         }
-
-        scanner.close();
     }
 
     private static void cadastrarCachorro(Scanner scanner) {
         System.out.println("\nCadastrar Cachorro");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
-        System.out.print("Raça: ");
+        System.out.print("Raca: ");
         String raca = scanner.nextLine();
         System.out.print("Cor: ");
         String cor = scanner.nextLine();
@@ -70,9 +57,9 @@ public class RegistroDeAnimaisDeEstimacao {
         System.out.println("\nCadastrar Gato");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
-        System.out.print("Raça: ");
+        System.out.print("Raca: ");
         String raca = scanner.nextLine();
-        System.out.print("Tamanho do Pelo (curto/médio/longo): ");
+        System.out.print("Tamanho do Pelo (curto/medio/longo): ");
         String tamanhoDoPelo = scanner.nextLine();
 
         Gato gato = new Gato(nome, raca, tamanhoDoPelo);
@@ -84,9 +71,9 @@ public class RegistroDeAnimaisDeEstimacao {
         System.out.println("\nCadastrar Peixe");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
-        System.out.print("Espécie: ");
+        System.out.print("Especie: ");
         String especie = scanner.nextLine();
-        System.out.print("Tipo de Água (doce/salgada): ");
+        System.out.print("Tipo de Agua (doce/salgada): ");
         String tipoDeAgua = scanner.nextLine();
 
         Peixe peixe = new Peixe(nome, especie, tipoDeAgua);
@@ -95,10 +82,10 @@ public class RegistroDeAnimaisDeEstimacao {
     }
 
     private static void cadastrarPassaro(Scanner scanner) {
-        System.out.println("\nCadastrar Pássaro");
+        System.out.println("\nCadastrar Passaro");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
-        System.out.print("Espécie: ");
+        System.out.print("Especie: ");
         String especie = scanner.nextLine();
         System.out.print("Sabe Cantar (sim/não): ");
         String sabeCantarStr = scanner.nextLine().toLowerCase();
@@ -107,3 +94,104 @@ public class RegistroDeAnimaisDeEstimacao {
 
         Passaro passaro = new Passaro(nome, especie, sabeCantar);
         listaDeAnimais.add(passaro);
+        System.out.println("Passaro cadastrado com sucesso!");
+    }
+
+    private static void listarAnimaisCadastrados() {
+        if (listaDeAnimais.isEmpty()) {
+            System.out.println("Nenhum animal cadastrado.");
+        } else {
+            System.out.println("\nLista de Animais Cadastrados:");
+            for (AnimalDeEstimacao animal : listaDeAnimais) {
+                System.out.println(animal);
+            }
+        }
+    }
+}
+
+abstract class AnimalDeEstimacao {
+}
+
+class Cachorro extends AnimalDeEstimacao {
+    private String nome;
+    private String raca;
+    private String cor;
+
+    public Cachorro(String nome, String raca, String cor) {
+        this.nome = nome;
+        this.raca = raca;
+        this.cor = cor;
+    }
+
+    @Override
+    public String toString() {
+        return "Cachorro {" +
+                "nome='" + nome + '\'' +
+                ", raca='" + raca + '\'' +
+                ", cor='" + cor + '\'' +
+                '}';
+    }
+}
+
+class Gato extends AnimalDeEstimacao {
+    private String nome;
+    private String raca;
+    private String tamanhoDoPelo;
+
+    public Gato(String nome, String raca, String tamanhoDoPelo) {
+        this.nome = nome;
+        this.raca = raca;
+        this.tamanhoDoPelo = tamanhoDoPelo;
+    }
+
+    @Override
+    public String toString() {
+        return "Gato {" +
+                "nome='" + nome + '\'' +
+                ", raca='" + raca + '\'' +
+                ", tamanhoDoPelo='" + tamanhoDoPelo + '\'' +
+                '}';
+    }
+}
+
+class Peixe extends AnimalDeEstimacao {
+    private String nome;
+    private String especie;
+    private String tipoDeAgua;
+
+    public Peixe(String nome, String especie, String tipoDeAgua) {
+        this.nome = nome;
+        this.especie = especie;
+        this.tipoDeAgua = tipoDeAgua;
+    }
+
+    @Override
+    public String toString() {
+        return "Peixe {" +
+                "nome='" + nome + '\'' +
+                ", especie='" + especie + '\'' +
+                ", tipoDeAgua='" + tipoDeAgua + '\'' +
+                '}';
+    }
+}
+
+class Passaro extends AnimalDeEstimacao {
+    private String nome;
+    private String especie;
+    private boolean sabeCantar;
+
+    public Passaro(String nome, String especie, boolean sabeCantar) {
+        this.nome = nome;
+        this.especie = especie;
+        this.sabeCantar = sabeCantar;
+    }
+
+    @Override
+    public String toString() {
+        return "Passaro {" +
+                "nome='" + nome + '\'' +
+                ", especie='" + especie + '\'' +
+                ", sabeCantar=" + sabeCantar +
+                '}';
+    }
+}
