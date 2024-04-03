@@ -1,0 +1,109 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class RegistroDeAnimaisDeEstimacao {
+
+    private static ArrayList<AnimalDeEstimacao> listaDeAnimais = new ArrayList<>(); // Lista para armazenar animais de estimação cadastrados
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Loop do menu principal
+        boolean continuarMenu = true;
+        while (continuarMenu) {
+            System.out.println("\n\nSistema de Registro de Animais de Estimação");
+            System.out.println("------------------------------------------");
+            System.out.println("1. Cadastrar Cachorro");
+            System.out.println("2. Cadastrar Gato");
+            System.out.println("3. Cadastrar Peixe");
+            System.out.println("4. Cadastrar Pássaro");
+            System.out.println("5. Listar Animais Cadastrados");
+            System.out.println("6. Sair");
+            System.out.print("Digite sua opção: ");
+
+            int escolha = scanner.nextInt();
+            scanner.nextLine(); // Consumir caractere de nova linha
+
+            switch (escolha) {
+                case 1:
+                    cadastrarCachorro(scanner);
+                    break;
+                case 2:
+                    cadastrarGato(scanner);
+                    break;
+                case 3:
+                    cadastrarPeixe(scanner);
+                    break;
+                case 4:
+                    cadastrarPassaro(scanner);
+                    break;
+                case 5:
+                    listarAnimaisCadastrados();
+                    break;
+                case 6:
+                    continuarMenu = false;
+                    System.out.println("Saindo do sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static void cadastrarCachorro(Scanner scanner) {
+        System.out.println("\nCadastrar Cachorro");
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Raça: ");
+        String raca = scanner.nextLine();
+        System.out.print("Cor: ");
+        String cor = scanner.nextLine();
+
+        Cachorro cachorro = new Cachorro(nome, raca, cor);
+        listaDeAnimais.add(cachorro);
+        System.out.println("Cachorro cadastrado com sucesso!");
+    }
+
+    private static void cadastrarGato(Scanner scanner) {
+        System.out.println("\nCadastrar Gato");
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Raça: ");
+        String raca = scanner.nextLine();
+        System.out.print("Tamanho do Pelo (curto/médio/longo): ");
+        String tamanhoDoPelo = scanner.nextLine();
+
+        Gato gato = new Gato(nome, raca, tamanhoDoPelo);
+        listaDeAnimais.add(gato);
+        System.out.println("Gato cadastrado com sucesso!");
+    }
+
+    private static void cadastrarPeixe(Scanner scanner) {
+        System.out.println("\nCadastrar Peixe");
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Espécie: ");
+        String especie = scanner.nextLine();
+        System.out.print("Tipo de Água (doce/salgada): ");
+        String tipoDeAgua = scanner.nextLine();
+
+        Peixe peixe = new Peixe(nome, especie, tipoDeAgua);
+        listaDeAnimais.add(peixe);
+        System.out.println("Peixe cadastrado com sucesso!");
+    }
+
+    private static void cadastrarPassaro(Scanner scanner) {
+        System.out.println("\nCadastrar Pássaro");
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Espécie: ");
+        String especie = scanner.nextLine();
+        System.out.print("Sabe Cantar (sim/não): ");
+        String sabeCantarStr = scanner.nextLine().toLowerCase();
+
+        boolean sabeCantar = sabeCantarStr.equals("sim");
+
+        Passaro passaro = new Passaro(nome, especie, sabeCantar);
+        listaDeAnimais.add(passaro);
